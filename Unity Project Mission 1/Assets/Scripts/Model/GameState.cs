@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace MonsterQuest
@@ -16,7 +17,7 @@ namespace MonsterQuest
 
         public void EnterCombatWithMonster(Monster monster) 
         {
-            this.combat = combat;
+            combat = new Combat(monster);
         }
     }
 }
