@@ -10,6 +10,8 @@ namespace MonsterQuest
 {
     public class GameManager : MonoBehaviour
     {
+        private CombatPresenter combatPresenter;
+
         private CombatManager combatManager;
 
         private GameState gameState;
@@ -19,13 +21,14 @@ namespace MonsterQuest
 
         private void Awake()
         {
+            combatPresenter = transform.Find("Combat").GetComponent<CombatPresenter>();
             combatManager = transform.Find("Combat").GetComponent<CombatManager>();
         }
 
-        void Start()
+        IEnumerator Start()
         {
             NewGame();
-            Simulate();
+            yield return Simulate();
         }
 
         private void NewGame()
@@ -42,8 +45,11 @@ namespace MonsterQuest
             gameState = new GameState(party);
         }
 
-        private void Simulate()
+        private IEnumerator Simulate()
         {
+            //Initializing Party
+            combatPresenter.InitializeParty(gameState);
+
             //Flavor
             Console.WriteLine($"Companions {gameState.party} walk on the road to Paris.");
 
@@ -52,15 +58,18 @@ namespace MonsterQuest
 
             monster = new Monster("orc", monsterSprites[0], DiceHelper.Roll("2d8+6"), SizeCategory.Medium, 10);
             gameState.EnterCombatWithMonster(monster);
-            combatManager.Simulate(gameState);
+            combatPresenter.InitializeMonster(gameState);
+            yield return combatManager.Simulate(gameState);
 
             monster = new Monster("azer", monsterSprites[1], DiceHelper.Roll("6d8+12"), SizeCategory.Medium, 18);
             gameState.EnterCombatWithMonster(monster);
-            combatManager.Simulate(gameState);
+            combatPresenter.InitializeMonster(gameState);
+            yield return combatManager.Simulate(gameState);
 
             monster = new Monster("troll", monsterSprites[2], DiceHelper.Roll("8d10+40"), SizeCategory.Large, 16);
             gameState.EnterCombatWithMonster(monster);
-            combatManager.Simulate(gameState);
+            combatPresenter.InitializeMonster(gameState);
+            yield return combatManager.Simulate(gameState);
 
             //Characters Alive
             if (gameState.party.characterCount == 1)

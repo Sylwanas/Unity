@@ -7,12 +7,12 @@ namespace MonsterQuest
 {
     public class CombatManager : MonoBehaviour
     {
-        public void Simulate(GameState gameState)
+        public IEnumerator Simulate(GameState gameState)
         {
 
             if (gameState.party.characterCount == 0)
             {
-                return;
+                yield break;
             }
 
             //Flavor
@@ -26,13 +26,14 @@ namespace MonsterQuest
                     int roll2D6 = DiceHelper.Roll("2d6");
                     Console.Write(character.displayName);
                     Console.Write($" deals {roll2D6} damage!");
-                    gameState.combat.monster.ReactToDamage(roll2D6);
+                    yield return character.presenter.Attack();
+                    yield return gameState.combat.monster.ReactToDamage(roll2D6);
 
                     if (gameState.combat.monster.hitPoints == 0)
                     {
                         Console.WriteLine($" The {gameState.combat.monster.displayName} has {gameState.combat.monster.hitPoints} HP remaining.");
                         Console.WriteLine("\nTriomphe! The companions continue to Paris! Tous pour un, un pour tous!\n");
-                        return;
+                        yield break;
                     }
                     Console.WriteLine($" The {gameState.combat.monster.displayName} has {gameState.combat.monster.hitPoints} HP remaining.");
                 }
@@ -40,23 +41,26 @@ namespace MonsterQuest
                 //DC Save
                 Character[] characters = gameState.party.characters.ToArray();
                 int roll1D20 = DiceHelper.Roll("1d20+3");
-                int randomChar = Random.Range(0, characters.Length);
+                int randomCharacterIndex = Random.Range(0, characters.Length);
+                Character randomCharacter = characters[randomCharacterIndex];
 
+                yield return gameState.combat.monster.presenter.Attack();
                 if (roll1D20 < gameState.combat.monster.savingThrowDC)
                 {
-                    Console.WriteLine($"{characters[randomChar]} rolls a {roll1D20} and is turnt to mush!");
-                    gameState.party.RemoveCharacter(characters[randomChar]);
+                    Console.WriteLine($"{randomCharacter} rolls a {roll1D20} and is turnt to mush!");
+                    yield return randomCharacter.ReactToDamage(10);
+                    gameState.party.RemoveCharacter(randomCharacter);
                 }
                 else
                 {
-                    Console.WriteLine($"{characters[randomChar]} rolls a {roll1D20} and is not turnt to mush!");
+                    Console.WriteLine($"{randomCharacter} rolls a {roll1D20} and is not turnt to mush!");
                 }
 
                 //Everyone Dead Check
                 if (gameState.party.characterCount == 0)
                 {
                     Console.WriteLine("All of the companions are dead! Merde!");
-                    return;
+                    yield break;
                 }
             }
         }

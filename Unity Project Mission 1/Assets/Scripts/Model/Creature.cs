@@ -31,9 +31,17 @@ namespace MonsterQuest
             this.presenter = presenter;  
         }
 
-        public void ReactToDamage(int damageAmount)
+        public IEnumerator ReactToDamage(int damageAmount)
         {
             hitPoints = Math.Max(0, hitPoints - damageAmount);
+            if (hitPoints == 0) 
+            { 
+                yield return presenter.Die();
+            }
+            else
+            {
+                yield return presenter.TakeDamage();
+            }
         }
 
         public override string ToString() 
