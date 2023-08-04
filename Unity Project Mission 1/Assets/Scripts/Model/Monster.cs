@@ -5,22 +5,13 @@ using UnityEngine;
 
 namespace MonsterQuest
 {
-    public class Monster
+    public class Monster : Creature
     {
-        public string displayName{ get; private set; }
-        public int hitPoints { get; private set; }
         public int savingThrowDC { get; private set; }
 
-        public Monster(string displayName, int hitPoints, int savingThrowDC) 
+        public Monster(string displayName, Sprite bodySprite, int hitPointsMaximum, SizeCategory sizeCategory, int savingThrowDC) : base(displayName, bodySprite, hitPointsMaximum, sizeCategory)
         {
-            this.displayName = displayName;
-            this.hitPoints = hitPoints;
             this.savingThrowDC = savingThrowDC;
-        }
-
-        public void ReactToDamage(int damageAmount)
-        {
-            hitPoints = Math.Max(0, hitPoints - damageAmount);
         }
     }
 }
