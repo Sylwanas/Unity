@@ -51,7 +51,7 @@ namespace MonsterQuest
             {
                 int randomWeaponIndex = Random.Range(0, weaponTypes.Count);
                 WeaponType randomWeapon = weaponTypes[randomWeaponIndex];
-                initialCharacters[i] = new Character(characterNames[i], characterSprites[i], 10, SizeCategory.Medium, randomWeapon, studdedLeather);
+                initialCharacters[i] = new Character(characterNames[i], characterSprites[i], 50, SizeCategory.Medium, randomWeapon, studdedLeather);
                 Console.WriteLine($"{characterNames[i]} is brandishing a deadly {randomWeapon.name} and sturdy {studdedLeather.name}");
             }
 
@@ -70,7 +70,6 @@ namespace MonsterQuest
 
             //Calling
             Monster monster;
-
             monster = new Monster(monsterTypes[0]);
             gameState.EnterCombatWithMonster(monster);
             combatPresenter.InitializeMonster(gameState);
@@ -82,6 +81,11 @@ namespace MonsterQuest
             yield return combatManager.Simulate(gameState);
 
             monster = new Monster(monsterTypes[2]);
+            gameState.EnterCombatWithMonster(monster);
+            combatPresenter.InitializeMonster(gameState);
+            yield return combatManager.Simulate(gameState);
+
+            monster = new Monster(monsterTypes[3]);
             gameState.EnterCombatWithMonster(monster);
             combatPresenter.InitializeMonster(gameState);
             yield return combatManager.Simulate(gameState);

@@ -23,11 +23,10 @@ namespace MonsterQuest
             {
                 foreach (var character in gameState.party.characters)
                 {
-                    int roll2D6 = DiceHelper.Roll("2d6");
-                    Console.Write(character.displayName);
-                    Console.Write($" deals {roll2D6} damage!");
+                    int charRollDamage = DiceHelper.Roll($"{character.weaponType.damageRoll}");
+                    Console.WriteLine($" {character.displayName} deals {charRollDamage} damage with their {character.weaponType.displayName}!");
                     yield return character.presenter.Attack();
-                    yield return gameState.combat.monster.ReactToDamage(roll2D6);
+                    yield return gameState.combat.monster.ReactToDamage(charRollDamage);
 
                     if (gameState.combat.monster.hitPoints == 0)
                     {
@@ -46,9 +45,10 @@ namespace MonsterQuest
                 int randomCharacterIndex = Random.Range(0, characters.Length);
                 Character randomCharacter = characters[randomCharacterIndex];
 
-                Console.WriteLine($"{randomCharacter} is attacked and takes {monsterRoll} damage");
+                Console.WriteLine($"{randomCharacter} is attacked and takes {monsterRoll} damage from the {gameState.combat.monster.displayName}s {gameState.combat.monster.type.weaponTypes[monsterWeaponIndex].displayName}!");
                 yield return gameState.combat.monster.presenter.Attack();
                 yield return randomCharacter.ReactToDamage(monsterRoll);
+                Console.WriteLine($"{randomCharacter} has {randomCharacter.hitPoints} HP remaining.");
                 if (randomCharacter.hitPoints == 0)
                 {
                     gameState.party.RemoveCharacter(randomCharacter);

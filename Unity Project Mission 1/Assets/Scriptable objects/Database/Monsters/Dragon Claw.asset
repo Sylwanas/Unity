@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1fae00b9aff8b1f4db772dbb3e99a1cb, type: 3}
-  m_Name: Troll Claw
+  m_Name: Dragon Claw
   m_EditorClassIdentifier: 
   displayName: Claw
   weight: 0
-  damageRoll: 2d6+4
+  damageRoll: 2d6+6

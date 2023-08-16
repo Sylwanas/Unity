@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fae00b9aff8b1f4db772dbb3e99a1cb, type: 3}
   m_Name: Troll Bite
   m_EditorClassIdentifier: 
-  displayName: Troll Bite
+  displayName: Bite
   weight: 0
   damageRoll: 1d6+4
