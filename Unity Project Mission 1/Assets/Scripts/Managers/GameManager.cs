@@ -17,7 +17,7 @@ namespace MonsterQuest
         private GameState gameState;
 
         [SerializeField] private Sprite[] characterSprites;
-        [SerializeField] private Sprite[] monsterSprites;
+        [SerializeField] private MonsterType[] monsterTypes;
 
         private void Awake()
         {
@@ -27,6 +27,7 @@ namespace MonsterQuest
 
         IEnumerator Start()
         {
+            yield return Database.Initialize();
             NewGame();
             yield return Simulate();
         }
@@ -35,9 +36,23 @@ namespace MonsterQuest
         {
             var characterNames = new string[] { "Athos", "Porthos", "Aramis", "d'Artagnan" };
             Character[] initialCharacters = new Character[characterNames.Length];
+            ArmorType studdedLeather = Database.GetItemType<ArmorType>("Studded Leather");
+
+            List<WeaponType> weaponTypes = new List<WeaponType>();
+            foreach (ItemType itemType in Database.itemTypes)
+            {
+                if (itemType is WeaponType && itemType.weight > 0) 
+                {
+                    weaponTypes.Add(itemType as WeaponType);
+                }
+            }
+
             for (int i = 0; i < characterNames.Length; i++)
             {
-                initialCharacters[i] = new Character(characterNames[i], characterSprites[i], 10, SizeCategory.Medium);
+                int randomWeaponIndex = Random.Range(0, weaponTypes.Count);
+                WeaponType randomWeapon = weaponTypes[randomWeaponIndex];
+                initialCharacters[i] = new Character(characterNames[i], characterSprites[i], 10, SizeCategory.Medium, randomWeapon, studdedLeather);
+                Console.WriteLine($"{characterNames[i]} is brandishing a deadly {randomWeapon.name} and sturdy {studdedLeather.name}");
             }
 
             var party = new Party(initialCharacters);
@@ -56,17 +71,17 @@ namespace MonsterQuest
             //Calling
             Monster monster;
 
-            monster = new Monster("orc", monsterSprites[0], DiceHelper.Roll("2d8+6"), SizeCategory.Medium, 10);
+            monster = new Monster(monsterTypes[0]);
             gameState.EnterCombatWithMonster(monster);
             combatPresenter.InitializeMonster(gameState);
             yield return combatManager.Simulate(gameState);
 
-            monster = new Monster("azer", monsterSprites[1], DiceHelper.Roll("6d8+12"), SizeCategory.Medium, 18);
+            monster = new Monster(monsterTypes[1]);
             gameState.EnterCombatWithMonster(monster);
             combatPresenter.InitializeMonster(gameState);
             yield return combatManager.Simulate(gameState);
 
-            monster = new Monster("troll", monsterSprites[2], DiceHelper.Roll("8d10+40"), SizeCategory.Large, 16);
+            monster = new Monster(monsterTypes[2]);
             gameState.EnterCombatWithMonster(monster);
             combatPresenter.InitializeMonster(gameState);
             yield return combatManager.Simulate(gameState);

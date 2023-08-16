@@ -7,11 +7,16 @@ namespace MonsterQuest
 {
     public class Monster : Creature
     {
-        public int savingThrowDC { get; private set; }
+        public MonsterType type { get; private set; }
 
-        public Monster(string displayName, Sprite bodySprite, int hitPointsMaximum, SizeCategory sizeCategory, int savingThrowDC) : base(displayName, bodySprite, hitPointsMaximum, sizeCategory)
+        public Monster(MonsterType type) :
+            base(type.displayName,
+                 type.bodySprite,
+                 type.sizeCategory)
         {
-            this.savingThrowDC = savingThrowDC;
+            this.type = type;
+            hitPointsMaximum = DiceHelper.Roll(type.hitPointsRoll);
+            Initialize();
         }
     }
 }

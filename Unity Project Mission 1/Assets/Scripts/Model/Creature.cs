@@ -16,13 +16,15 @@ namespace MonsterQuest
 
         public float spaceInFeet => SizeHelper.spaceInFeetPerSizeCategory[sizeCategory];
 
-        public Creature(string displayName, Sprite bodySprite, int hitPointsMaximum, SizeCategory sizeCategory)
+        public Creature(string displayName, Sprite bodySprite, SizeCategory sizeCategory)
         {
             this.displayName = displayName;
             this.bodySprite = bodySprite;
-            this.hitPointsMaximum = hitPointsMaximum;
             this.sizeCategory = sizeCategory;
+        }
 
+        protected void Initialize()
+        {
             hitPoints = hitPointsMaximum;
         }
 

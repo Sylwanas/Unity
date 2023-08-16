@@ -38,22 +38,21 @@ namespace MonsterQuest
                     Console.WriteLine($" The {gameState.combat.monster.displayName} has {gameState.combat.monster.hitPoints} HP remaining.");
                 }
 
-                //DC Save
+                //Monster Attack
+                int monsterWeaponIndex = Random.Range(0, gameState.combat.monster.type.weaponTypes.Length);
+                int monsterRoll = DiceHelper.Roll(gameState.combat.monster.type.weaponTypes[monsterWeaponIndex].damageRoll);
+
                 Character[] characters = gameState.party.characters.ToArray();
-                int roll1D20 = DiceHelper.Roll("1d20+3");
                 int randomCharacterIndex = Random.Range(0, characters.Length);
                 Character randomCharacter = characters[randomCharacterIndex];
 
+                Console.WriteLine($"{randomCharacter} is attacked and takes {monsterRoll} damage");
                 yield return gameState.combat.monster.presenter.Attack();
-                if (roll1D20 < gameState.combat.monster.savingThrowDC)
+                yield return randomCharacter.ReactToDamage(monsterRoll);
+                if (randomCharacter.hitPoints == 0)
                 {
-                    Console.WriteLine($"{randomCharacter} rolls a {roll1D20} and is turnt to mush!");
-                    yield return randomCharacter.ReactToDamage(10);
                     gameState.party.RemoveCharacter(randomCharacter);
-                }
-                else
-                {
-                    Console.WriteLine($"{randomCharacter} rolls a {roll1D20} and is not turnt to mush!");
+                    Console.WriteLine($"{randomCharacter} has perished!");
                 }
 
                 //Everyone Dead Check
