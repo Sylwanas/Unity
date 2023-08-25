@@ -1,25 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private PeasantType _peasantType;
-
-    [SerializeField] private Gamestate _gamestate;
+    [field: SerializeField] public Gamestate gamestate { get; private set; }
+    [SerializeField] private GameboardPresenter _gameboardPresenter;
 
     // Start is called before the first frame update
     void Start()
     {
-        _gamestate = new Gamestate();
+        gamestate = new Gamestate();
 
         GameboardPresenter gameboardPresenter = transform.GetComponentInChildren<GameboardPresenter>();
-        gameboardPresenter.Initialize(_gamestate.gameboard);
+        gameboardPresenter.Initialize(gamestate.gameboard);
+    }
+
+    public void CreatePeasant(PeasantType peasantType, Vector2Int position)
+    {
+        Turret newTurret = new Peasant(peasantType, position, gamestate);
+        gamestate.gameboard.AddTurret(newTurret);
+        _gameboardPresenter.InitializeTurret(newTurret);
     }
 
     // Update is called once per frame
     void Update()
     {
-        _gamestate.Update();
+        gamestate.Update();
     }
 }
