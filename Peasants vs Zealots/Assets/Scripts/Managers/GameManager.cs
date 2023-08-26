@@ -17,9 +17,9 @@ public class GameManager : MonoBehaviour
         gameboardPresenter.Initialize(gamestate.gameboard);
     }
 
-    public void CreatePeasant(PeasantType peasantType, Vector2Int position)
+    public void CreateTurret(TurretType turretType, Vector2Int position)
     {
-        Turret newTurret = new Peasant(peasantType, position, gamestate);
+        Turret newTurret = turretType.CreateTurret(position, gamestate);
         gamestate.gameboard.AddTurret(newTurret);
         _gameboardPresenter.InitializeTurret(newTurret);
     }

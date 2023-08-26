@@ -310,7 +310,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 202074470}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078401334}
+        m_TargetAssemblyTypeName: ShopPresenter, Assembly-CSharp
+        m_MethodName: TurretSwitch
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11400000, guid: 52cecbb94c5a01048aa5445ecb800a9a, type: 2}
+          m_ObjectArgumentAssemblyTypeName: TurretType, Assembly-CSharp
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &202074470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -901,7 +913,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 981529851}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078401334}
+        m_TargetAssemblyTypeName: ShopPresenter, Assembly-CSharp
+        m_MethodName: TurretSwitch
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11400000, guid: 42054d20de0593f40b9d6729ccad3086, type: 2}
+          m_ObjectArgumentAssemblyTypeName: TurretType, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &981529851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1071,9 +1095,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c32b6f2e5d91a1a4196ad7f1e7087d6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _archerType: {fileID: 11400000, guid: 52cecbb94c5a01048aa5445ecb800a9a, type: 2}
   _peasantType: {fileID: 11400000, guid: 42054d20de0593f40b9d6729ccad3086, type: 2}
   _gameManager: {fileID: 894418214}
   _goldAmount: {fileID: 347397728}
+  _turretType: {fileID: 0}
 --- !u!1 &1141968457
 GameObject:
   m_ObjectHideFlags: 0
@@ -1157,7 +1183,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1141968460}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1078401334}
+        m_TargetAssemblyTypeName: ShopPresenter, Assembly-CSharp
+        m_MethodName: TurretSwitch
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1141968460
 MonoBehaviour:
   m_ObjectHideFlags: 0
