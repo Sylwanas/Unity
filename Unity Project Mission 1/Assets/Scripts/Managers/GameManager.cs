@@ -36,7 +36,6 @@ namespace MonsterQuest
         {
             var characterNames = new string[] { "Athos", "Porthos", "Aramis", "d'Artagnan" };
             Character[] initialCharacters = new Character[characterNames.Length];
-            ArmorType studdedLeather = Database.GetItemType<ArmorType>("Studded Leather");
 
             List<WeaponType> weaponTypes = new List<WeaponType>();
             foreach (ItemType itemType in Database.itemTypes)
@@ -47,12 +46,25 @@ namespace MonsterQuest
                 }
             }
 
+            List<ArmorType> armorTypes = new List<ArmorType>();
+            foreach (ItemType itemType in Database.itemTypes)
+            {
+                if (itemType is ArmorType && itemType.weight > 0)
+                {
+                    armorTypes.Add(itemType as ArmorType);
+                }
+            }
+
             for (int i = 0; i < characterNames.Length; i++)
             {
                 int randomWeaponIndex = Random.Range(0, weaponTypes.Count);
                 WeaponType randomWeapon = weaponTypes[randomWeaponIndex];
-                initialCharacters[i] = new Character(characterNames[i], characterSprites[i], 50, SizeCategory.Medium, randomWeapon, studdedLeather);
-                Console.WriteLine($"{characterNames[i]} is brandishing a deadly {randomWeapon.name} and sturdy {studdedLeather.name}");
+
+                int randomArmorIndex = Random.Range(0, armorTypes.Count);
+                ArmorType randomArmor = armorTypes[randomArmorIndex];
+
+                initialCharacters[i] = new Character(characterNames[i], characterSprites[i], 10, SizeCategory.Medium, randomWeapon, randomArmor);
+                Console.WriteLine($"{characterNames[i]} is brandishing a deadly {randomWeapon.name} and sturdy {randomArmor.name} armor.");
             }
 
             var party = new Party(initialCharacters);
@@ -63,7 +75,7 @@ namespace MonsterQuest
         private IEnumerator Simulate()
         {
             //Initializing Party
-            combatPresenter.InitializeParty(gameState);
+            yield return combatPresenter.InitializeParty(gameState);
 
             //Flavor
             Console.WriteLine($"Companions {gameState.party} walk on the road to Paris.");
@@ -72,30 +84,30 @@ namespace MonsterQuest
             Monster monster;
             monster = new Monster(monsterTypes[0]);
             gameState.EnterCombatWithMonster(monster);
-            combatPresenter.InitializeMonster(gameState);
+            yield return combatPresenter.InitializeMonster(gameState);
             yield return combatManager.Simulate(gameState);
 
             monster = new Monster(monsterTypes[1]);
             gameState.EnterCombatWithMonster(monster);
-            combatPresenter.InitializeMonster(gameState);
+            yield return combatPresenter.InitializeMonster(gameState);
             yield return combatManager.Simulate(gameState);
 
             monster = new Monster(monsterTypes[2]);
             gameState.EnterCombatWithMonster(monster);
-            combatPresenter.InitializeMonster(gameState);
+            yield return combatPresenter.InitializeMonster(gameState);
             yield return combatManager.Simulate(gameState);
 
             monster = new Monster(monsterTypes[3]);
             gameState.EnterCombatWithMonster(monster);
-            combatPresenter.InitializeMonster(gameState);
+            yield return combatPresenter.InitializeMonster(gameState);
             yield return combatManager.Simulate(gameState);
 
             //Characters Alive
-            if (gameState.party.characterCount == 1)
+            if (gameState.party.aliveCharacterCount == 1)
             {
-                Console.WriteLine($"Only {gameState.party.characters.First()} has survived.");
+                Console.WriteLine($"Only {gameState.party.aliveCharacters.First()} has survived.");
             }
-            if (gameState.party.characterCount > 1)
+            if (gameState.party.aliveCharacterCount > 1)
             {
                 Console.WriteLine($"{gameState.party} have survived!");
             }

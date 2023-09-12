@@ -8,5 +8,6 @@ namespace MonsterQuest
     public class ArmorType : ItemType
     {
         public ArmorCategory category;
+        public int armorClass;
     }
 }

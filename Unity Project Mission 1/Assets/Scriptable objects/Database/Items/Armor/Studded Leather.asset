@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Studded Leather
   m_EditorClassIdentifier: 
   displayName: Studded Leather
-  weight: 12
+  weight: 13
   category: 0
+  armorClass: 12
