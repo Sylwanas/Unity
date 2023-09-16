@@ -15,5 +15,6 @@ namespace MonsterQuest
         public SizeCategory sizeCategory;
         public WeaponType[] weaponTypes;
         public ArmorType armorType;
+        public AbilityScores abilityScores;
     }
 }

@@ -22,3 +22,16 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 75dcf1b9fb7c5fc4dae50bfd0a4fdf5a, type: 2}
   - {fileID: 11400000, guid: 0dac30b88244cd640a4b77432417ac81, type: 2}
   armorType: {fileID: 11400000, guid: 367a1bc71301e5b4f9f95f728e541b5a, type: 2}
+  abilityScores:
+    <strength>k__BackingField:
+      <score>k__BackingField: 16
+    <dexterity>k__BackingField:
+      <score>k__BackingField: 12
+    <constitution>k__BackingField:
+      <score>k__BackingField: 16
+    <intelligence>k__BackingField:
+      <score>k__BackingField: 7
+    <wisdom>k__BackingField:
+      <score>k__BackingField: 11
+    <charisma>k__BackingField:
+      <score>k__BackingField: 10
