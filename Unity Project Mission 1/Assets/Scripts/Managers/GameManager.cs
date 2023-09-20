@@ -63,7 +63,7 @@ namespace MonsterQuest
                 int randomArmorIndex = Random.Range(0, armorTypes.Count);
                 ArmorType randomArmor = armorTypes[randomArmorIndex];
 
-                initialCharacters[i] = new Character(characterNames[i], characterSprites[i], 10, SizeCategory.Medium, randomWeapon, randomArmor);
+                initialCharacters[i] = new Character(characterNames[i], characterSprites[i], 25, SizeCategory.Medium, randomWeapon, randomArmor);
                 Console.WriteLine($"{characterNames[i]} is brandishing a deadly {randomWeapon.name} and sturdy {randomArmor.name} armor.");
             }
 

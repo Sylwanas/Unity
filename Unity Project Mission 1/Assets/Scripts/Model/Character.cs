@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -14,6 +15,8 @@ namespace MonsterQuest
         public override IEnumerable<bool> deathSavingThrows => _deathSavingThrows;
         public override int armorClass => armorType.armorClass;
 
+        private AbilityScores _abilityScores;
+        public override AbilityScores abilityScores => _abilityScores;
         public Character(string displayName,
                        Sprite bodySprite,
                        int hitPointsMaximum,
@@ -27,6 +30,7 @@ namespace MonsterQuest
             this.hitPointsMaximum = hitPointsMaximum;
             this.weaponType = weaponType;
             this.armorType = armorType;
+            RollAbilityScores();
             Initialize();
         }
 
@@ -34,7 +38,12 @@ namespace MonsterQuest
         {
             if (lifeStatus == LifeStatus.Conscious)
             {
-                return new AttackAction(this, gameState.combat.monster, weaponType);
+                if (weaponType.isFinesse && _abilityScores.strength < _abilityScores.dexterity)
+                {
+                    return new AttackAction(this, gameState.combat.monster, weaponType, Ability.Dexterity);
+                }
+                else
+                return new AttackAction(this, gameState.combat.monster, weaponType, Ability.Strength);
             }
             else
             {
@@ -147,5 +156,30 @@ namespace MonsterQuest
                 }
             }
         }
+
+        private void RollAbilityScores()
+        {
+            _abilityScores = new AbilityScores();
+            Console.WriteLine($"{displayName}'s ability scores:");
+
+            for (int i = 1; i <= 6; i++)
+            {
+                List<int> rolls = new();
+
+                for (int j = 0; j < 4; j++)
+                {
+                    rolls.Add(DiceHelper.Roll("1d6"));
+                }
+
+                rolls.Sort();
+                rolls.RemoveAt(0);
+                int score = rolls.Sum();
+
+                Ability ability = (Ability)i;
+                _abilityScores[ability].score = score;
+                Console.WriteLine($"{ability}: {score}");
+            }
+        }
     }
 }
+

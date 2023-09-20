@@ -15,20 +15,31 @@ namespace MonsterQuest
         [field: SerializeField] public AbilityScore wisdom { get; private set; }
         [field: SerializeField] public AbilityScore charisma { get; private set; }
 
-
-        public AbilityScores(AbilityScore strength,
-                             AbilityScore dexterity,
-                             AbilityScore constitution,
-                             AbilityScore intelligence,
-                             AbilityScore wisdom,
-                             AbilityScore charisma) 
+        public AbilityScores() 
         {
-            this.strength = strength;
-            this.dexterity = dexterity;
-            this.constitution = constitution;
-            this.intelligence = intelligence;
-            this.wisdom = wisdom;
-            this.charisma = charisma;
+            strength = new AbilityScore();
+            dexterity = new AbilityScore();
+            constitution = new AbilityScore();
+            intelligence = new AbilityScore();
+            wisdom = new AbilityScore();
+            charisma = new AbilityScore();
+        }
+
+        public AbilityScore this[Ability ability]
+        {
+            get
+            {
+                return ability switch
+                {
+                    Ability.Strength => strength,
+                    Ability.Dexterity => dexterity,
+                    Ability.Constitution => constitution,
+                    Ability.Intelligence => intelligence,
+                    Ability.Wisdom => wisdom,
+                    Ability.Charisma => charisma,
+                    _ => throw new ArgumentOutOfRangeException()
+                };
+            }
         }
     }
 }

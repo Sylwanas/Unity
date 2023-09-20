@@ -12,5 +12,10 @@ namespace MonsterQuest
     {
         [field: SerializeField] public int score { get; set; }
         public int modifier => Mathf.FloorToInt((score -10) / 2);
+
+        public static implicit operator int(AbilityScore abilityScore)
+        {
+            return abilityScore.score;
+        }
     }
 }

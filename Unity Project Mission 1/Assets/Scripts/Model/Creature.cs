@@ -19,6 +19,7 @@ namespace MonsterQuest
         public int deathSavingThrowSuccesses => deathSavingThrows.Count(deathSavingThrow => deathSavingThrow);
         public int deathSavingThrowFailures => deathSavingThrows.Count(deathSavingThrow => !deathSavingThrow);
         public abstract int armorClass { get; }
+        public abstract AbilityScores abilityScores { get; }
 
         public LifeStatus lifeStatus 
         {
