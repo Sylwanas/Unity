@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7d3beaeb01145849865b75b0845d98b, type: 3}
   m_Name: Azer
   m_EditorClassIdentifier: 
-  displayName: Azer
+  displayName: azer
   alignment: Lawful Neutral
   hitPointsRoll: 6d8+12
   armorClass: 17

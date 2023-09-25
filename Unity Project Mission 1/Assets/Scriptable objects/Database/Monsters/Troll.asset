@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7d3beaeb01145849865b75b0845d98b, type: 3}
   m_Name: Troll
   m_EditorClassIdentifier: 
-  displayName: Troll
+  displayName: troll
   alignment: Chaotic Evil
   hitPointsRoll: 8d10+40
   armorClass: 15

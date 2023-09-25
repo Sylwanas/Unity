@@ -25,7 +25,7 @@ namespace MonsterQuest
                 Initiative.Add(creature);
             }
             Initiative.Add(gameState.combat.monster);
-            ListHelper.Shuffle(Initiative);
+            Initiative.Shuffle();
 
             //Actual Running
             while (true)

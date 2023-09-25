@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +37,11 @@ namespace MonsterQuest
                     }
                     return string.Join($", ", itemsCopy);
             }
+        }
+
+        public static string ToUpperFirst(this string s)
+        {
+            return Char.ToUpper(s[0]) + s.Remove(0, 1);
         }
     }
 }

@@ -27,17 +27,16 @@ namespace MonsterQuest
         public override IAction TakeTurn(GameState gameState)
         {
             Character[] characters = gameState.party.aliveCharacters.ToArray();
-            int randomCharacterIndex = UnityEngine.Random.Range(0, characters.Length);
-            Character attackedCharacter = characters[randomCharacterIndex];
+            Character attackedCharacter = characters.Random();
 
-            int monsterWeaponIndex = UnityEngine.Random.Range(0, type.weaponTypes.Length);
+            WeaponType randomWeapon = type.weaponTypes.Random();
 
             if (abilityScores.intelligence > 7)
             {
                 attackedCharacter = characters.OrderBy(character => character.hitPoints).First();
             }
 
-            return new AttackAction(this, attackedCharacter, type.weaponTypes[monsterWeaponIndex], null);
+            return new AttackAction(this, attackedCharacter, randomWeapon, null);
         }
     }
 }

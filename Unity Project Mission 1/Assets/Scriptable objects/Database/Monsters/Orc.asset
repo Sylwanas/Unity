@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7d3beaeb01145849865b75b0845d98b, type: 3}
   m_Name: Orc
   m_EditorClassIdentifier: 
-  displayName: Orc
+  displayName: orc
   alignment: Chaotic Evil
   hitPointsRoll: 2d8+6
   armorClass: 13
