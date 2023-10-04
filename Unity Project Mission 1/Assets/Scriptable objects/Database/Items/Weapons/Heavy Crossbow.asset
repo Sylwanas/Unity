@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fae00b9aff8b1f4db772dbb3e99a1cb, type: 3}
   m_Name: Heavy Crossbow
   m_EditorClassIdentifier: 
-  displayName: 
-  weight: 0
-  damageRoll: 
-  isRanged: 0
+  displayName: Heavy Crossbow
+  weight: 18
+  damageRoll: 1d10
+  isRanged: 1
   isFinesse: 0
+  category: 0100000008000000

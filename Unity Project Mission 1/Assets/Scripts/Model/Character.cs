@@ -3,7 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
+using UnityEditor.Build.Pipeline.Interfaces;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 namespace MonsterQuest
 {
@@ -14,24 +17,97 @@ namespace MonsterQuest
         public ArmorType armorType { get; }
         public override IEnumerable<bool> deathSavingThrows => _deathSavingThrows;
         public override int armorClass => armorType.armorClass;
+        public ClassType classType { get; }
+
+
+        public int level { get; private set; }
+        public int experiencePoints { get; private set; }
+        public int hitDice { get; private set; }
+
 
         private AbilityScores _abilityScores;
         public override AbilityScores abilityScores => _abilityScores;
         public Character(string displayName,
                        Sprite bodySprite,
-                       int hitPointsMaximum,
                        SizeCategory sizeCategory,
                        WeaponType weaponType,
-                       ArmorType armorType) :
+                       ArmorType armorType,
+                       ClassType classType) :
             base(displayName,
                  bodySprite,
                  sizeCategory)
         {
-            this.hitPointsMaximum = hitPointsMaximum;
+            RollAbilityScores();
+
+            int rolledHitDie = DiceHelper.Roll(classType.hitDieRoll);
+            hitPointsMaximum = Math.Max(0, rolledHitDie + abilityScores.constitution.modifier);
+
+            Console.WriteLine($"{displayName} was created with {hitPointsMaximum} health, rolling a 1d{classType.hitDie} based on their class, giving them {rolledHitDie}HP, the maximum result also adding {abilityScores.constitution.modifier}HP of which is based on their constitution score.");
+
             this.weaponType = weaponType;
             this.armorType = armorType;
-            RollAbilityScores();
+            this.classType = classType;
+
+            experiencePoints = 0;
+            level = 1;
+            hitDice = level;
+
             Initialize();
+        }
+       
+        public override float proficiencyBonus => calculateProficiencyBonus(level);
+
+        public override bool IsProficientWithWeapon(WeaponType weaponType)
+        {
+            for (int i = 0; i < classType.weaponProficiencies.Count(); i++)
+            {
+                if (classType.weaponProficiencies.Contains(weaponType.category[i]))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public IEnumerator GainExperiencePoints(int experience)
+        {
+            experiencePoints += experience;
+
+            Console.WriteLine($"{displayName} gained {experience}XP and is now at {experiencePoints}XP.");
+
+            while (experiencePoints >= 300)
+            {
+                yield return LevelUp();
+                break;
+            }
+        }
+
+        private IEnumerator LevelUp()
+        {
+            level++;
+            hitDice = level;
+            int hitDiceRoll = DiceHelper.Roll($"1d{classType.hitDie}");
+            int hitPointsIncrease = Math.Max(0, hitDiceRoll + abilityScores.constitution.modifier);
+            hitPointsMaximum += hitPointsIncrease;
+
+            Console.WriteLine($"{displayName} has leveled up to level {level}, they now have {hitDice} hit dice and {hitPointsMaximum} max HP.");
+
+            yield return presenter.LevelUp();
+        }
+
+        public IEnumerator ShortRest()
+        {
+            while (hitPoints < hitPointsMaximum && hitDice > 0)
+            {
+                for (int i = 0; i < hitDice; i++)
+                {
+                    int restoredHP = Math.Max(0, DiceHelper.Roll($"1d{classType.hitDie}") + abilityScores.constitution.modifier);
+                    Console.Write($"{displayName} has {hitPoints}HP");
+                    yield return Heal(restoredHP);
+                    Console.WriteLine($", they take a short rest and recover {restoredHP}HP, they now have {hitPoints}HP");
+                }
+                hitDice--;
+            }
         }
 
         public override IAction TakeTurn(GameState gameState)

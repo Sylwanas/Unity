@@ -5,24 +5,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using UnityEngine.TextCore.Text;
+using Unity.VisualScripting;
 
 namespace MonsterQuest
 {
     public class GameManager : MonoBehaviour
     {
-        private CombatPresenter combatPresenter;
+        private CombatPresenter _combatPresenter;
 
-        private CombatManager combatManager;
+        private CombatManager _combatManager;
 
-        private GameState gameState;
+        private GameState _gameState;
+
+        private Character _character;
 
         [SerializeField] private Sprite[] characterSprites;
         [SerializeField] private MonsterType[] monsterTypes;
 
         private void Awake()
         {
-            combatPresenter = transform.Find("Combat").GetComponent<CombatPresenter>();
-            combatManager = transform.Find("Combat").GetComponent<CombatManager>();
+            _combatPresenter = transform.Find("Combat").GetComponent<CombatPresenter>();
+            _combatManager = transform.Find("Combat").GetComponent<CombatManager>();
         }
 
         IEnumerator Start()
@@ -55,6 +58,8 @@ namespace MonsterQuest
                 }
             }
 
+            ClassType fighter = Database.GetClassType("Fighter");
+
             for (int i = 0; i < characterNames.Length; i++)
             {
                 int randomWeaponIndex = Random.Range(0, weaponTypes.Count);
@@ -63,53 +68,59 @@ namespace MonsterQuest
                 int randomArmorIndex = Random.Range(0, armorTypes.Count);
                 ArmorType randomArmor = armorTypes[randomArmorIndex];
 
-                initialCharacters[i] = new Character(characterNames[i], characterSprites[i], 25, SizeCategory.Medium, randomWeapon, randomArmor);
+                initialCharacters[i] = new Character(characterNames[i], characterSprites[i], SizeCategory.Medium, randomWeapon, randomArmor, fighter);
                 Console.WriteLine($"{characterNames[i]} is brandishing a deadly {randomWeapon.name} and sturdy {randomArmor.name} armor.");
             }
 
             var party = new Party(initialCharacters);
 
-            gameState = new GameState(party);
+            _gameState = new GameState(party);
         }
 
         private IEnumerator Simulate()
         {
             //Initializing Party
-            yield return combatPresenter.InitializeParty(gameState);
+            yield return _combatPresenter.InitializeParty(_gameState);
 
-            //Flavor
-            Console.WriteLine($"Companions {gameState.party} walk on the road to Paris.");
+            while (true)
+            {
+                //Flavor
+                Console.WriteLine($"Companions {_gameState.party} walk on the road to Paris.");
 
-            //Calling
-            Monster monster;
-            monster = new Monster(monsterTypes[0]);
-            gameState.EnterCombatWithMonster(monster);
-            yield return combatPresenter.InitializeMonster(gameState);
-            yield return combatManager.Simulate(gameState);
+                //Calling
+                Monster monster;
+                monster = new Monster(monsterTypes[0]);
+                _gameState.EnterCombatWithMonster(monster);
+                yield return _combatPresenter.InitializeMonster(_gameState);
+                yield return _combatManager.Simulate(_gameState);
 
-            monster = new Monster(monsterTypes[1]);
-            gameState.EnterCombatWithMonster(monster);
-            yield return combatPresenter.InitializeMonster(gameState);
-            yield return combatManager.Simulate(gameState);
+                foreach (Character character in _gameState.party.aliveCharacters)
+                {
+                    yield return character.GainExperiencePoints(_gameState.combat.monster.type.xpTotal / _gameState.party.aliveCharacterCount);
+                    yield return character.ShortRest();
+                }
 
-            monster = new Monster(monsterTypes[2]);
-            gameState.EnterCombatWithMonster(monster);
-            yield return combatPresenter.InitializeMonster(gameState);
-            yield return combatManager.Simulate(gameState);
+                monster = new Monster(monsterTypes[2]);
+                _gameState.EnterCombatWithMonster(monster);
+                yield return _combatPresenter.InitializeMonster(_gameState);
+                yield return _combatManager.Simulate(_gameState);
 
-            monster = new Monster(monsterTypes[3]);
-            gameState.EnterCombatWithMonster(monster);
-            yield return combatPresenter.InitializeMonster(gameState);
-            yield return combatManager.Simulate(gameState);
+                foreach (Character character in _gameState.party.aliveCharacters)
+                {
+                    yield return character.GainExperiencePoints(_gameState.combat.monster.type.xpTotal / _gameState.party.aliveCharacterCount);
+                }
+
+                break;
+            }
 
             //Characters Alive
-            if (gameState.party.aliveCharacterCount == 1)
+            if (_gameState.party.aliveCharacterCount == 1)
             {
-                Console.WriteLine($"Only {gameState.party.aliveCharacters.First()} has survived.");
+                Console.WriteLine($"Only {_gameState.party.aliveCharacters.First()} has survived.");
             }
-            if (gameState.party.aliveCharacterCount > 1)
+            if (_gameState.party.aliveCharacterCount > 1)
             {
-                Console.WriteLine($"{gameState.party} have survived!");
+                Console.WriteLine($"{_gameState.party} have survived!");
             }
         }
 

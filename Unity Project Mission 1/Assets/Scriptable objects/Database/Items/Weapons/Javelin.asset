@@ -15,3 +15,6 @@ MonoBehaviour:
   displayName: Javelin
   weight: 2
   damageRoll: 1d6
+  isRanged: 0
+  isFinesse: 0
+  category: 0000000005000000

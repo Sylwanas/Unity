@@ -35,3 +35,5 @@ MonoBehaviour:
       <score>k__BackingField: 11
     <charisma>k__BackingField:
       <score>k__BackingField: 10
+  challengeRating: 1
+  xpTotal: 100

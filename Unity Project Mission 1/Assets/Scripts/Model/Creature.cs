@@ -20,6 +20,8 @@ namespace MonsterQuest
         public int deathSavingThrowFailures => deathSavingThrows.Count(deathSavingThrow => !deathSavingThrow);
         public abstract int armorClass { get; }
         public abstract AbilityScores abilityScores { get; }
+        public abstract float proficiencyBonus { get; }
+        public int proficiencyBonusBase { get; protected set; } 
 
         public LifeStatus lifeStatus 
         {
@@ -50,6 +52,13 @@ namespace MonsterQuest
         {
             this.presenter = presenter;  
         }
+
+        protected static float calculateProficiencyBonus(float baseValue)
+        {
+            return 2 + Math.Max(0, (baseValue - 1) / 4);
+        }
+
+        public abstract bool IsProficientWithWeapon(WeaponType weaponType);
 
         public abstract IAction TakeTurn(GameState gameState);
 

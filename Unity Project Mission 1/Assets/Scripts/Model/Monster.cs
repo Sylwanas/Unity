@@ -12,7 +12,9 @@ namespace MonsterQuest
         public override IEnumerable<bool> deathSavingThrows => _deathSavingThrows;
         public override int armorClass => type.armorClass;
         public override AbilityScores abilityScores => type.abilityScores;
+        public override float proficiencyBonus => calculateProficiencyBonus(type.challengeRating); 
         public MonsterType type { get; private set; }
+
 
         public Monster(MonsterType type) :
             base(type.displayName,
@@ -22,6 +24,11 @@ namespace MonsterQuest
             this.type = type;
             hitPointsMaximum = DiceHelper.Roll(type.hitPointsRoll);
             Initialize();
+        }
+
+        public override bool IsProficientWithWeapon(WeaponType weaponType)
+        {
+            return true;
         }
 
         public override IAction TakeTurn(GameState gameState)

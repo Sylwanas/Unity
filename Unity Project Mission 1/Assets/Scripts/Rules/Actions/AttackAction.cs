@@ -13,7 +13,9 @@ namespace MonsterQuest
     {
         private Creature _attacker;
         private Creature _target;
+
         private WeaponType _weaponType;
+
         private Ability? _ability = null;
 
         public AttackAction(Creature attacker,
@@ -33,7 +35,6 @@ namespace MonsterQuest
             yield return _attacker.presenter.Attack();
 
             int attackModifier = _attacker.abilityScores.strength.modifier;
-
             if (_weaponType.isRanged == true)
             {
                 attackModifier = _attacker.abilityScores.dexterity.modifier;
@@ -44,24 +45,29 @@ namespace MonsterQuest
                 attackModifier = _attacker.abilityScores[_ability.Value].modifier;
             }
 
+            float attackRoll = DiceHelper.Roll("1d20");
+            float baseAttackRoll = attackRoll;
+
+            if (_attacker.IsProficientWithWeapon(_weaponType))
+            {
+                attackRoll += _attacker.proficiencyBonus;
+            }
+
             string capitalizeAttacker = _attacker.displayName.ToUpperFirst();
             string capitalizeDefender = _target.displayName.ToUpperFirst();
 
-            int attackRoll = DiceHelper.Roll("1d20");
-
-            if (attackRoll + attackModifier >= _target.armorClass || attackRoll == 20) 
+            if (attackRoll + attackModifier  >= _target.armorClass) 
             {
-
                 bool wasCriticalHit = false;
                 int rollDamage = DiceHelper.Roll(_weaponType.damageRoll);
                 int damage = Math.Max(0, rollDamage + attackModifier);
 
-                if (attackRoll == 20 || _target.lifeStatus != LifeStatus.Conscious)
+                if (baseAttackRoll == 20 || _target.lifeStatus != LifeStatus.Conscious)
                 {
                     wasCriticalHit = true;
                     int critDamage = DiceHelper.Roll(_weaponType.damageRoll);
                     yield return _target.ReactToDamage(critDamage + damage, wasCriticalHit);
-                    Console.WriteLine($"{capitalizeAttacker} rolled a {attackRoll}!\nCritting {_target.displayName} for {critDamage} extra damage with their {_weaponType.displayName} for {critDamage+damage} total damage!");
+                    Console.WriteLine($"{capitalizeAttacker} rolled a {baseAttackRoll}!\nCritting {_target.displayName} for {critDamage} extra damage with their {_weaponType.displayName} for {critDamage+damage} total damage!");
                     Console.WriteLine($"{capitalizeDefender} has {_target.hitPoints} remaining.");
                 }
                 else

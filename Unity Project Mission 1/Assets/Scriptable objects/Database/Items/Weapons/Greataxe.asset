@@ -15,3 +15,6 @@ MonoBehaviour:
   displayName: Greataxe
   weight: 7
   damageRoll: 1d12
+  isRanged: 0
+  isFinesse: 0
+  category: 0100000006000000
