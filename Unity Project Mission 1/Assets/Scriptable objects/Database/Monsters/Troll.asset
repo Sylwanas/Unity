@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: troll
   alignment: Chaotic Evil
-  hitPointsRoll: 15
+  hitPointsRoll: 8d10+40
   armorClass: 15
   bodySprite: {fileID: 21300000, guid: f1fa343faea49484d895a671f5ea4a29, type: 3}
   sizeCategory: 4

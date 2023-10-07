@@ -12,6 +12,7 @@ namespace MonsterQuest
     {
         private static readonly List<MonsterType> _monsterTypes = new();
         private static readonly List<ItemType> _itemTypes = new();
+        private static readonly List<SpellType> _spellTypes = new();
         private static readonly List<ClassType> _classTypes = new();
         
         private static readonly List<Sprite> _sprites = new();
@@ -22,6 +23,7 @@ namespace MonsterQuest
 
         public static IEnumerable<MonsterType> monsterTypes => _monsterTypes;
         public static IEnumerable<ItemType> itemTypes => _itemTypes;
+        public static IEnumerable<SpellType> spellType => _spellTypes;
         public static IEnumerable<ClassType> classTypes => _classTypes;
 
         public static IEnumerator Initialize()
@@ -31,6 +33,7 @@ namespace MonsterQuest
             // Load all assets.
             yield return LoadAssets(_monsterTypes);
             yield return LoadAssets(_itemTypes);
+            yield return LoadAssets(_spellTypes);
             yield return LoadAssets(_classTypes);
             
             // We also load all Unity objects so they get their instanceIDs indexed. We need to load the
@@ -47,6 +50,11 @@ namespace MonsterQuest
         public static T GetItemType<T>(string displayName) where T : class
         {
             return _itemTypes.First(item => item.displayName == displayName && item is T) as T;
+        }
+
+        public static SpellType GetSpellType(string displayName) 
+        { 
+            return _spellTypes.First(spell => spell.displayName == displayName);
         }
         
         public static ClassType GetClassType(string displayName)

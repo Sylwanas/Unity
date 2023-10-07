@@ -3,10 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
-using UnityEditor.Build.Pipeline.Interfaces;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 
 namespace MonsterQuest
 {
@@ -25,7 +22,7 @@ namespace MonsterQuest
         public int hitDice { get; private set; }
 
 
-        private AbilityScores _abilityScores;
+        protected AbilityScores _abilityScores;
         public override AbilityScores abilityScores => _abilityScores;
         public Character(string displayName,
                        Sprite bodySprite,
@@ -95,7 +92,7 @@ namespace MonsterQuest
             yield return presenter.LevelUp();
         }
 
-        public IEnumerator ShortRest()
+        public virtual IEnumerator ShortRest()
         {
             while (hitPoints < hitPointsMaximum && hitDice > 0)
             {

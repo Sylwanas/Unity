@@ -59,6 +59,7 @@ namespace MonsterQuest
             }
 
             ClassType fighter = Database.GetClassType("Fighter");
+            SorcererType sorcerer = (SorcererType)Database.GetClassType("Sorcerer");
 
             for (int i = 0; i < characterNames.Length; i++)
             {
@@ -68,7 +69,7 @@ namespace MonsterQuest
                 int randomArmorIndex = Random.Range(0, armorTypes.Count);
                 ArmorType randomArmor = armorTypes[randomArmorIndex];
 
-                initialCharacters[i] = new Character(characterNames[i], characterSprites[i], SizeCategory.Medium, randomWeapon, randomArmor, fighter);
+                initialCharacters[i] = new Sorcerer(characterNames[i], characterSprites[i], SizeCategory.Medium, randomWeapon, randomArmor, sorcerer);
                 Console.WriteLine($"{characterNames[i]} is brandishing a deadly {randomWeapon.name} and sturdy {randomArmor.name} armor.");
             }
 
@@ -120,7 +121,7 @@ namespace MonsterQuest
             }
             if (_gameState.party.aliveCharacterCount > 1)
             {
-                Console.WriteLine($"{_gameState.party} have survived!");
+                Console.WriteLine($"{StringHelper.JoinWithAnd(_gameState.party.aliveCharacters.Select(character => character.displayName))} have survived.");
             }
         }
 
