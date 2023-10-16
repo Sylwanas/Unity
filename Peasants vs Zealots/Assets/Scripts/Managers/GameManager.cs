@@ -1,32 +1,76 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using TMPro;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [field: SerializeField] public Gamestate gamestate { get; private set; }
-    [SerializeField] private GameboardPresenter _gameboardPresenter;
 
+    [SerializeField] private float myWaveCooldown;
+    [SerializeField] private ZealotType myZealotType;
+
+    [field: SerializeField] public Gamestate gameState { get; private set; }
+    [SerializeField] private GameboardPresenter myGameboardPresenter;
+
+    public TextMeshProUGUI gameOverText;
     // Start is called before the first frame update
     void Start()
     {
-        gamestate = new Gamestate();
-
-        GameboardPresenter gameboardPresenter = transform.GetComponentInChildren<GameboardPresenter>();
-        gameboardPresenter.Initialize(gamestate.gameboard);
+        gameState = new Gamestate();
+        
+        myGameboardPresenter.Initialize(gameState.gameboard);
+        gameState.gameboard.InitializePresenter(myGameboardPresenter);
     }
 
-    public void CreateTurret(TurretType turretType, Vector2Int position)
+    public void CreateUnit(UnitType unitType, Vector2Int position)
     {
-        Turret newTurret = turretType.CreateTurret(position, gamestate);
-        gamestate.gameboard.AddTurret(newTurret);
-        _gameboardPresenter.InitializeTurret(newTurret);
+
+        Unit newUnit = unitType.CreateUnit(position, gameState);
+        gameState.gameboard.AddUnit(newUnit);
+        myGameboardPresenter.InitializeUnit(newUnit);
+    }
+
+    public void StartWave()
+    {
+        gameState.WaveIncrease();
+
+        for (int i = 0; i < gameState.wave; i++)
+        {
+            CreateUnit(myZealotType, new Vector2Int(13, Random.Range(0, 7)));
+        }
+    }
+
+    private void HandleWaves()
+    {
+        if (gameState.waveState == Gamestate.WaveState.Cooldown)
+        {
+            gameState.WaveCountdown(myWaveCooldown);
+
+            if (gameState.waveCountdown <= 0)
+            {
+                StartWave();
+            }
+        }
+        else if (gameState.waveState == Gamestate.WaveState.Fight) 
+        { 
+            if (gameState.gameboard.zealotCount == 0)
+            {
+                gameState.WaveEnd();
+            }
+        }
+
+        if (gameState.player.health == 0)
+        {
+            gameState.gameOver();
+            gameOverText.gameObject.SetActive(true);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        gamestate.Update();
+        HandleWaves();
+        gameState.Update();
     }
 }

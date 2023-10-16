@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu]
 public class ArcherType : TurretType
 {
-    public override Turret CreateTurret(Vector2Int position, Gamestate gamestate)
+    public override Unit CreateUnit(Vector2Int position, Gamestate gamestate)
     {
         return new Archer(this, position, gamestate);
     }

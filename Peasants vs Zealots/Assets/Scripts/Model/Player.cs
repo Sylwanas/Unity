@@ -21,12 +21,8 @@ public class Player
         currentGold += goldAmount;
     }
 
-    public IEnumerator ReactToDamage(int damageAmount)
+    public void ReactToDamage(int damageAmount)
     {
         health = Math.Max(0, health - damageAmount);
-        if (health == 0)
-        {
-            yield break;
-        }
     }
 }

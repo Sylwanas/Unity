@@ -7,7 +7,7 @@ using UnityEngine.UI;
 [Serializable]
 public class Peasant : Turret
 {
-    [field: SerializeReference] private PeasantType peasantType { get; set; }
+    [field: SerializeReference] private PeasantType myPeasantType { get; set; }
     [field: SerializeField] public float goldCountdown { get; private set; }
 
     public Peasant(PeasantType peasantType,
@@ -17,7 +17,7 @@ public class Peasant : Turret
             position,
             gamestate)
     {
-        this.peasantType = peasantType;
+        myPeasantType = peasantType;
         goldCountdown = peasantType.goldCooldown;
     }
 
@@ -28,8 +28,8 @@ public class Peasant : Turret
 
         if (goldCountdown < 0)
         {
-            gamestate.player.GiveMoney(peasantType.goldAmount);
-            goldCountdown = peasantType.goldCooldown;
+            gameState.player.GiveMoney(myPeasantType.goldAmount);
+            goldCountdown = myPeasantType.goldCooldown;
         }        
     }
 }

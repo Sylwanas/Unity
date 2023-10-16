@@ -9,7 +9,7 @@ public class PeasantType : TurretType
     public float goldCooldown;
     public int goldAmount;
 
-    public override Turret CreateTurret(Vector2Int position, Gamestate gamestate)
+    public override Unit CreateUnit(Vector2Int position, Gamestate gamestate)
     {
         return new Peasant(this, position, gamestate);
     }

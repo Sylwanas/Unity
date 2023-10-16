@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Archer
   m_EditorClassIdentifier: 
   maxHealth: 5
+  sprite: {fileID: 21300000, guid: 5744170c399d94f43b29d97fa1662214, type: 3}
   goldCost: 0
-  turretSprite: {fileID: 21300000, guid: 5744170c399d94f43b29d97fa1662214, type: 3}

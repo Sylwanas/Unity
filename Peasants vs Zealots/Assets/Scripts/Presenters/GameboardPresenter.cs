@@ -5,7 +5,9 @@ using UnityEngine;
 public class GameboardPresenter : MonoBehaviour
 {
     [SerializeField] private GameObject tilePrefab;
-    [SerializeField] private GameObject turretPrefab;
+    [SerializeField] private GameObject unitPrefab;
+
+    Dictionary<Unit, GameObject> unitGameObjects = new Dictionary<Unit, GameObject>();
 
     // Start is called before the first frame update
     void Start()
@@ -19,12 +21,22 @@ public class GameboardPresenter : MonoBehaviour
         
     }
 
-    public void InitializeTurret(Turret turret) 
+    public void InitializeUnit(Unit unit) 
     {
-        Transform turretsTransform = transform.Find("Turrets");
-        GameObject turretGameObject = Instantiate(turretPrefab, turretsTransform);
-        TurretPresenter turretPresenter = turretGameObject.GetComponent<TurretPresenter>();
-        turretPresenter.Initialize(turret);
+        Transform unitsTransform = transform.Find("Units");
+        GameObject unitGameObject = Instantiate(unitPrefab, unitsTransform);
+
+        unitGameObjects[unit] = unitGameObject;
+
+        UnitPresenter unitPresenter = unitGameObject.GetComponent<UnitPresenter>();
+        unitPresenter.Initialize(unit);
+    }
+
+    public void DestroyUnit(Unit unit) 
+    {
+        GameObject unitGameObject = unitGameObjects[unit];
+        Destroy(unitGameObject);
+        unitGameObjects.Remove(unit);
     }
 
     public void Initialize(Gameboard gameboard)

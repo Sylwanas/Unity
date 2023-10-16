@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d19554ec0b8fe4f46a1f9803e33d7776, type: 3}
-  m_Name: Peasant
+  m_Script: {fileID: 11500000, guid: a7383c2667152b740bc09177f2ca8f33, type: 3}
+  m_Name: Zealot
   m_EditorClassIdentifier: 
-  maxHealth: 10
-  sprite: {fileID: 21300000, guid: a9d475ab1ce79c34ead4423b0278e89c, type: 3}
-  goldCost: 50
-  goldCooldown: 5
-  goldAmount: 25
+  maxHealth: 5
+  sprite: {fileID: 21300000, guid: 4354442b85b16fe498d5c359990fa4e7, type: 3}
+  speed: 1
+  position: {x: 0, y: 0}
+  damage: 5
+  attackCooldown: 0.5
