@@ -9,13 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7383c2667152b740bc09177f2ca8f33, type: 3}
-  m_Name: Zealot
+  m_Script: {fileID: 11500000, guid: 3f1c723e117dab94e948d0df43a45412, type: 3}
+  m_Name: Soldier
   m_EditorClassIdentifier: 
   maxHealth: 10
-  sprite: {fileID: 21300000, guid: 4354442b85b16fe498d5c359990fa4e7, type: 3}
-  speed: 2
+  sprite: {fileID: 21300000, guid: a0f3df385144e7642a655a579be5c09e, type: 3}
+  goldCost: 75
+  speed: 1
   position: {x: 0, y: 0}
   damage: 5
-  attackCooldown: 3
-  attackRange: 0.6
+  attackCooldown: 5
+  attackRange: 1

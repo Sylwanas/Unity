@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class Player
+public class Player : IDamageAble
 {
     [field: SerializeField] public int maxHealth { get; private set; }
     [field: SerializeField] public int health { get; private set; }
@@ -14,11 +14,17 @@ public class Player
     {
         this.maxHealth = maxHealth;
         health = maxHealth;
+        currentGold = 500;
     }
 
     public void GiveMoney(int goldAmount)
     {
         currentGold += goldAmount;
+    }
+
+    public void BuyTurret(int cost)
+    {
+        currentGold -= cost;
     }
 
     public void ReactToDamage(int damageAmount)

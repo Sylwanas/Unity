@@ -26,9 +26,12 @@ public class ShopPresenter : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && myUnitType != null)
         {
             Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2Int position = new Vector2Int((int)mouseWorldPosition.x, (int)mouseWorldPosition.y);
+            Vector2Int position = new Vector2Int(Mathf.FloorToInt(mouseWorldPosition.x), Mathf.FloorToInt(mouseWorldPosition.y));
 
-            _gameManager.CreateUnit(myUnitType, position);
+            if (_gameManager.gameState.gameboard.IsTileEmpty(position) && !_gameManager.gameState.gameboard.IsTileOutside(position))
+            {
+                _gameManager.CreateUnit(myUnitType, position);
+            }
         }
     }
 

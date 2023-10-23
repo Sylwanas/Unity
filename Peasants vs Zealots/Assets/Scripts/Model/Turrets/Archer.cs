@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class Archer : Turret
 {
     [field: SerializeReference] private ArcherType archerType { get; set; }

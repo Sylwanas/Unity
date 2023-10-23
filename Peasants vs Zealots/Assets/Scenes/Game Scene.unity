@@ -791,8 +791,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myWaveCooldown: 2
+  myZealotType: {fileID: 11400000, guid: 1600767001734344ca4e6d5dfd8aebf2, type: 2}
   <gameState>k__BackingField:
-    gameOverText: {fileID: 1064569466}
     <wave>k__BackingField: 10
     <waveState>k__BackingField: 1
     <waveCountdown>k__BackingField: 0
@@ -801,16 +801,13 @@ MonoBehaviour:
     <player>k__BackingField:
       rid: 466686848766836737
   myGameboardPresenter: {fileID: 1945439120}
-  myZealotType: {fileID: 11400000, guid: 1600767001734344ca4e6d5dfd8aebf2, type: 2}
   gameOverText: {fileID: 1064569466}
-  isGameActive: 0
   references:
     version: 2
     RefIds:
     - rid: 466686848766836736
       type: {class: Gameboard, ns: , asm: Assembly-CSharp}
       data:
-        myUnits: []
         <width>k__BackingField: 13
         <height>k__BackingField: 7
     - rid: 466686848766836737
@@ -1326,10 +1323,10 @@ MonoBehaviour:
       - m_Target: {fileID: 1078401334}
         m_TargetAssemblyTypeName: ShopPresenter, Assembly-CSharp
         m_MethodName: TurretSwitch
-        m_Mode: 3
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 11400000, guid: 7b7f25c287521e44bbe32ded01ed360e, type: 2}
+          m_ObjectArgumentAssemblyTypeName: TurretType, Assembly-CSharp
           m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1431,7 +1428,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Archer
+  m_text: Archer - 50GP
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1566,7 +1563,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Soldier
+  m_text: Soldier - 75GP
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1780,7 +1777,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Peasant
+  m_text: Peasant - 50GP
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

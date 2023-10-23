@@ -2,17 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SoldierType : MonoBehaviour
+[CreateAssetMenu]
+public class SoldierType : TurretType
 {
-    // Start is called before the first frame update
-    void Start()
+    public float speed;
+    public Vector2 position;
+    public int damage;
+    public float attackCooldown;
+    public float attackRange;
+    public override Unit CreateUnit(Vector2Int position, Gamestate gamestate)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        return new Soldier(this, position, gamestate);
     }
 }

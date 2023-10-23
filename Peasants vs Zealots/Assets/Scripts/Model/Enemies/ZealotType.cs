@@ -11,6 +11,7 @@ public class ZealotType : UnitType
     public Vector2 position;
     public int damage;
     public float attackCooldown;
+    public float attackRange;
 
     public override Unit CreateUnit(Vector2Int position, Gamestate gamestate)
     {

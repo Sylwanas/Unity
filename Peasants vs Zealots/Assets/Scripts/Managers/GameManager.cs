@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -25,10 +26,24 @@ public class GameManager : MonoBehaviour
 
     public void CreateUnit(UnitType unitType, Vector2Int position)
     {
+        if (unitType is TurretType turret)
+        {
+            if (gameState.player.currentGold >= turret.goldCost)
+            {
+                gameState.player.BuyTurret(turret.goldCost);
 
-        Unit newUnit = unitType.CreateUnit(position, gameState);
-        gameState.gameboard.AddUnit(newUnit);
-        myGameboardPresenter.InitializeUnit(newUnit);
+                Unit newUnit = unitType.CreateUnit(position, gameState);
+                gameState.gameboard.AddUnit(newUnit);
+                myGameboardPresenter.InitializeUnit(newUnit);
+            }
+        }
+
+        else
+        {
+            Unit newUnit = unitType.CreateUnit(position, gameState);
+            gameState.gameboard.AddUnit(newUnit);
+            myGameboardPresenter.InitializeUnit(newUnit);
+        }
     }
 
     public void StartWave()

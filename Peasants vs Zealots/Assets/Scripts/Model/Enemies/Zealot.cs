@@ -4,46 +4,56 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class Zealot : Unit
+public class Zealot : Unit, IRangeProvider
 {
     [field: SerializeReference] public ZealotType zealotType { get; private set; }
     [field: SerializeField] public float attackCountdown { get; private set; }
+
+    public float attackRange => zealotType.attackRange;
 
     public Zealot(ZealotType zealotType,
                 Vector2Int position,
                 Gamestate gameState) : base(zealotType, position, gameState)
     {
         this.zealotType = zealotType;
-        attackCountdown = zealotType.attackCooldown;
+        attackCountdown = 0;
     }
 
     public void MoveZealot()
     {
+        bool inContact = false;
         Vector2 position = this.position;
 
-        if (position.x >= -0.5)
+        foreach (Turret turret in gameState.gameboard.turrets)
+        {
+            if (gameState.gameboard.AreUnitsInContact(this, turret))
+            {
+                inContact = true; 
+                break;
+            }
+        }
+
+        if (position.x >= -0.5 && !inContact)
         {
             position.x -= zealotType.speed * Time.deltaTime;
             this.position = position;
         }
     }
 
-    public void attackCooldown(Unit unit, int damage)
+    public void Attack(IDamageAble target)
     {
-        attackCountdown -= Time.deltaTime;
-
-        if (attackCountdown < 0)
+        if (attackCountdown <= 0)
         {
-            unit.ReactToDamage(damage);
-            attackCountdown = zealotType.attackCooldown;
+            target.ReactToDamage(zealotType.damage);
             MoveBack();
+            attackCountdown = zealotType.attackCooldown;
         }
     }
 
     public void MoveBack()
     {
         Vector2 position = this.position;
-        position.x += zealotType.attackCooldown;
+        position.x += 1;
         this.position = position;
     }
 
