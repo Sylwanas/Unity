@@ -14,11 +14,13 @@ public class Gameboard
 {
     private GameboardPresenter myPresenter;
     private Player myPlayer;
+    private List<Unit> myAddedUnits = new List<Unit>();
 
     [field: SerializeField] public List<Unit> Units { get; private set; }
     public IEnumerable<Zealot> zealots => Units.Where(unit => unit is Zealot).Cast<Zealot>();
     public IEnumerable<Turret> turrets => Units.Where(unit => unit is Turret).Cast<Turret>();
     public IEnumerable<Soldier> soldiers => Units.Where(unit => unit is Soldier).Cast<Soldier>();
+    public IEnumerable<Arrow>  arrows => Units.Where(unit => unit is Arrow).Cast<Arrow>();
     public int zealotCount => zealots.Count();
     [field: SerializeField] public int width { get; private set; }
     [field: SerializeField] public int height { get; private set; }
@@ -82,6 +84,28 @@ public class Gameboard
             }
         }
 
+        foreach (Arrow arrow in arrows)
+        {
+            foreach (Zealot zealot in zealots)
+            {
+                if (arrow.position.x >= 12.5)
+                {
+                    deadUnits.Add(arrow);
+                }
+
+                if (IsTargetInRange(arrow, zealot))
+                {
+                    arrow.Attack(zealot);
+                    deadUnits.Add(arrow);
+
+                    if (zealot.health == 0)
+                    {
+                        deadUnits.Add(zealot);
+                    }
+                }
+            }
+        }
+
         foreach (Soldier soldier in soldiers)
         {
             foreach (Zealot zealot in zealots)
@@ -128,7 +152,7 @@ public class Gameboard
     }
     public void AddUnit(Unit unit)
     {
-        Units.Add(unit);
+        myAddedUnits.Add(unit);
     }
 
     public void Update()
@@ -139,5 +163,8 @@ public class Gameboard
         { 
             unit.Update();
         }
+
+        Units.AddRange(myAddedUnits);
+        myAddedUnits.Clear();
     }
 }

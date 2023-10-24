@@ -13,7 +13,7 @@ public class Zealot : Unit, IRangeProvider
 
     public Zealot(ZealotType zealotType,
                 Vector2Int position,
-                Gamestate gameState) : base(zealotType, position, gameState)
+                GameManager gameManager) : base(zealotType, position, gameManager)
     {
         this.zealotType = zealotType;
         attackCountdown = 0;

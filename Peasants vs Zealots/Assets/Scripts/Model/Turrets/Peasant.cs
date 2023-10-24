@@ -12,10 +12,10 @@ public class Peasant : Turret
 
     public Peasant(PeasantType peasantType,
                 Vector2Int position,
-                Gamestate gamestate) : 
+                GameManager gameManager) : 
         base(peasantType,
             position,
-            gamestate)
+            gameManager)
     {
         myPeasantType = peasantType;
         goldCountdown = peasantType.goldCooldown;

@@ -5,8 +5,10 @@ using UnityEngine;
 [CreateAssetMenu]
 public class ArcherType : TurretType
 {
-    public override Unit CreateUnit(Vector2Int position, Gamestate gamestate)
+    public float attackCooldown;
+    public ArrowType arrowType;
+    public override Unit CreateUnit(Vector2Int position, GameManager gameManager)
     {
-        return new Archer(this, position, gamestate);
+        return new Archer(this, position, gameManager);
     }
 }

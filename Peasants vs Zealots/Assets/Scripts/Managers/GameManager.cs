@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
             {
                 gameState.player.BuyTurret(turret.goldCost);
 
-                Unit newUnit = unitType.CreateUnit(position, gameState);
+                Unit newUnit = unitType.CreateUnit(position, this);
                 gameState.gameboard.AddUnit(newUnit);
                 myGameboardPresenter.InitializeUnit(newUnit);
             }
@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
 
         else
         {
-            Unit newUnit = unitType.CreateUnit(position, gameState);
+            Unit newUnit = unitType.CreateUnit(position, this);
             gameState.gameboard.AddUnit(newUnit);
             myGameboardPresenter.InitializeUnit(newUnit);
         }

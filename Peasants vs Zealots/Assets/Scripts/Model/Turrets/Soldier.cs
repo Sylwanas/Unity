@@ -13,10 +13,10 @@ public class Soldier : Turret, IRangeProvider
 
     public Soldier(SoldierType soldierType,
             Vector2Int position,
-            Gamestate gamestate) :
+            GameManager gameManager) :
     base(soldierType,
         position,
-        gamestate)
+        gameManager)
     {
         this.soldierType = soldierType;
         attackCountdown = 0;

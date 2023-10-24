@@ -6,7 +6,7 @@ using UnityEngine;
 [Serializable]
 public abstract class Turret : Unit
 {
-    protected Turret(UnitType type, Vector2 position, Gamestate gameState) : base(type, position, gameState)
+    protected Turret(UnitType type, Vector2 position, GameManager gameManager) : base(type, position, gameManager)
     {
     }
 }

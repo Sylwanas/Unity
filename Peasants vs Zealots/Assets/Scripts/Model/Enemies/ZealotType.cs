@@ -13,8 +13,8 @@ public class ZealotType : UnitType
     public float attackCooldown;
     public float attackRange;
 
-    public override Unit CreateUnit(Vector2Int position, Gamestate gamestate)
+    public override Unit CreateUnit(Vector2Int position, GameManager gameManager)
     {
-        return new Zealot(this, position, gamestate);
+        return new Zealot(this, position, gameManager);
     }
 }

@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 5
   sprite: {fileID: 21300000, guid: 5744170c399d94f43b29d97fa1662214, type: 3}
-  goldCost: 0
+  goldCost: 50
+  attackCooldown: 10
+  arrowType: {fileID: 11400000, guid: 13739ac569348a04f8c51d83a60ab12a, type: 2}
