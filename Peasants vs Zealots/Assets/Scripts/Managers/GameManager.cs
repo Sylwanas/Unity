@@ -33,16 +33,16 @@ public class GameManager : MonoBehaviour
                 gameState.player.BuyTurret(turret.goldCost);
 
                 Unit newUnit = unitType.CreateUnit(position, this);
-                gameState.gameboard.AddUnit(newUnit);
                 myGameboardPresenter.InitializeUnit(newUnit);
+                gameState.gameboard.AddUnit(newUnit);
             }
         }
 
         else
         {
             Unit newUnit = unitType.CreateUnit(position, this);
-            gameState.gameboard.AddUnit(newUnit);
             myGameboardPresenter.InitializeUnit(newUnit);
+            gameState.gameboard.AddUnit(newUnit);
         }
     }
 

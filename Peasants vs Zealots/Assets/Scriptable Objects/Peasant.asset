@@ -15,5 +15,5 @@ MonoBehaviour:
   maxHealth: 10
   sprite: {fileID: 21300000, guid: a9d475ab1ce79c34ead4423b0278e89c, type: 3}
   goldCost: 50
-  goldCooldown: 5
+  goldCooldown: 6
   goldAmount: 25

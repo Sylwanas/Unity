@@ -24,7 +24,7 @@ public class GameboardPresenter : MonoBehaviour
     public void InitializeUnit(Unit unit) 
     {
         Transform unitsTransform = transform.Find("Units");
-        GameObject unitGameObject = Instantiate(unitPrefab, unitsTransform);
+        GameObject unitGameObject = Instantiate(unitPrefab, unit.position, Quaternion.identity, unitsTransform);
 
         unitGameObjects[unit] = unitGameObject;
 
