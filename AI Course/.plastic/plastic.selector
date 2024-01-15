@@ -1,0 +1,4 @@
+repository "AI Course@Sylwanas@cloud"
+  path "/"
+    br "/main"
+    co "/main"
